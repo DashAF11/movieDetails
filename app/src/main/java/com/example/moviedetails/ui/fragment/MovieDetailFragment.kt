@@ -1,4 +1,4 @@
-package com.example.moviedetails.fragment
+package com.example.moviedetails.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,5 +22,4 @@ class MovieDetailFragment : Fragment() {
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         return binding!!.root
     }
-
 }
