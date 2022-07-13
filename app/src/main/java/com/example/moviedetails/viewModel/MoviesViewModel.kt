@@ -22,9 +22,12 @@ class MoviesViewModel @Inject constructor(private val getMoviesRepository: IGetM
 
     private val _getMovieData = MutableSharedFlow<DataState<BaseResponse<List<MovieData>>>>()
     private val _getMovieDetails = MutableSharedFlow<DataState<BaseResponse<MovieDetail>>>()
+    private val _getSearchedMovieData =
+        MutableSharedFlow<DataState<BaseResponse<List<MovieData>>>>()
 
     val getMovieData = _getMovieData.toSharedFlow()
     val getMovieDetails = _getMovieDetails.toSharedFlow()
+    val getSearchedMovieData = _getSearchedMovieData.toSharedFlow()
 
     fun getMovies() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -38,6 +41,20 @@ class MoviesViewModel @Inject constructor(private val getMoviesRepository: IGetM
         viewModelScope.launch(Dispatchers.IO) {
             getMoviesRepository.getMovieDetails(movieId).onEach {
                 _getMovieDetails.emit(it)
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun getSearchedMovieData(
+        searchedKey: String,
+        pageCount: Int
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getMoviesRepository.getSearchMovieData(
+                searchedKey,
+                pageCount
+            ).onEach {
+                _getSearchedMovieData.emit(it)
             }.launchIn(viewModelScope)
         }
     }

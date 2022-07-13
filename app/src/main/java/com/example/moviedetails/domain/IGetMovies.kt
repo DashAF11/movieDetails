@@ -9,4 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface IGetMovies {
     suspend fun getMovies(): Flow<DataState<BaseResponse<List<MovieData>>>>
     suspend fun getMovieDetails(movieId: Int): Flow<DataState<BaseResponse<MovieDetail>>>
+    suspend fun getSearchMovieData(
+        searchedKey: String,
+        pageCount: Int
+    ): Flow<DataState<BaseResponse<List<MovieData>>>>
 }

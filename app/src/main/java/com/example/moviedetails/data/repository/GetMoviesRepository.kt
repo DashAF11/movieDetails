@@ -21,4 +21,16 @@ class GetMoviesRepository @Inject constructor(
         emit(DataState.Loading)
         emit(safeApiRequest.apiRequest { apiInterface.getMovieDetails(movieId) })
     }
+
+    override suspend fun getSearchMovieData(
+        searchedKey: String, pageCount: Int
+    ) = flow {
+        emit(DataState.Loading)
+        emit(safeApiRequest.apiRequest {
+            apiInterface.getSearchedMovieData(
+                searchedKey,
+                pageCount
+            )
+        })
+    }
 }

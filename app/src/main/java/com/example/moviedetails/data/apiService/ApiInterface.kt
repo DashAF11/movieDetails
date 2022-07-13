@@ -14,4 +14,11 @@ interface ApiInterface {
 
     @GET(CASE_GET_MOVIE_DETAILS)
     suspend fun getMovieDetails(@Path("movie_id") movie_id: Int): BaseResponse<MovieDetail>
+
+
+    @GET(CASE_GET_MOVIE_DETAILS)
+    suspend fun getSearchedMovieData(
+        @Path("search_string") search_string: String,
+        @Path("page_count") page_count: Int
+    ): BaseResponse<List<MovieData>>
 }
