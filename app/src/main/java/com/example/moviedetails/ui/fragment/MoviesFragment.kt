@@ -51,7 +51,7 @@ class MoviesFragment : Fragment() {
                         Timber.e(it.toString())
                     }
                     is DataState.Success -> {
-                        Timber.e("APISTATE", Gson().toJson(it))
+                        Timber.e("getMovieData : %s", Gson().toJson(it))
                     }
                 }
             }

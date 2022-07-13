@@ -11,8 +11,14 @@ class GetMoviesRepository @Inject constructor(
     private val safeApiRequest: SafeApiRequest,
     private val apiInterface: ApiInterface
 ) : IGetMovies {
+
     override suspend fun getMovies() = flow {
         emit(DataState.Loading)
         emit(safeApiRequest.apiRequest { apiInterface.getMovies() })
+    }
+
+    override suspend fun getMovieDetails(movieId: Int) = flow {
+        emit(DataState.Loading)
+        emit(safeApiRequest.apiRequest { apiInterface.getMovieDetails(movieId) })
     }
 }
