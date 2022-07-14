@@ -7,7 +7,7 @@ data class BaseResponse<T>(
 )
 
 data class MovieData(
-    val id: String,
+    val id: Int,
     val original_language: String,
     val original_title: String,
     val overview: String,
@@ -19,7 +19,7 @@ data class MovieData(
 )
 
 data class MovieDetail(
-    val id: String,
+    val id: Int,
     val original_language: String,
     val original_title: String,
     val overview: String,

@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -27,15 +27,14 @@ class MoviesFragment : Fragment() {
 
     private val moviesViewModel: MoviesViewModel by viewModels()
     private var binding: MoviesFragmentBinding? = null
-    private lateinit var moviesAdapter: MoviesAdapter
-    private lateinit var moviesPagingAdapter: MoviesPagingAdapter
+    private val moviesAdapter: MoviesAdapter by lazy { MoviesAdapter() }
+    private val moviesPagingAdapter: MoviesPagingAdapter by lazy { MoviesPagingAdapter() }
     private var moviesPagingDataList = arrayListOf<MovieData>()
     private var pageCount = 2
     var manager: LinearLayoutManager? = null
-    var isScrolling = false
-    var currentItems = 0
-    var totalItems = 0
-    var scrollOutItems = 0
+    private var visibleItemCount = 0
+    private var totalItemCount = 0
+    private var pastVisibleItems = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,23 +50,26 @@ class MoviesFragment : Fragment() {
         setDataCollection()
         manager = GridLayoutManager(activity, 3)
         (manager as GridLayoutManager).isSmoothScrollbarEnabled = true
+        binding?.rvBottomMovies?.isNestedScrollingEnabled = false
+
+        moviesAdapter.listener = { _, item, _ ->
+            Toast.makeText(requireContext(), "${item.id}", Toast.LENGTH_LONG).show()
+        }
+
+        moviesPagingAdapter.listener = { _, item, _ ->
+            Toast.makeText(requireContext(), "${item.id}", Toast.LENGTH_LONG).show()
+        }
 
         binding?.rvBottomMovies?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == SCROLL_STATE_TOUCH_SCROLL) {
-                    isScrolling = true
-                }
-            }
-
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                currentItems = (manager as GridLayoutManager).childCount
-                totalItems = (manager as GridLayoutManager).itemCount
-                scrollOutItems = (manager as GridLayoutManager).findFirstVisibleItemPosition()
-                if (isScrolling && currentItems + scrollOutItems === totalItems) {
-                    isScrolling = false
-                    moviesViewModel.getMoviesPaging(pageCount++)
+                if (dy > 0) { //check for scroll down
+                    visibleItemCount = (manager as GridLayoutManager).childCount
+                    totalItemCount = (manager as GridLayoutManager).itemCount
+                    pastVisibleItems = (manager as GridLayoutManager).findFirstVisibleItemPosition()
+                    if (visibleItemCount + pastVisibleItems >= totalItemCount) {
+                        moviesViewModel.getMoviesPaging(pageCount++)
+                    }
                 }
             }
         })
@@ -91,8 +93,7 @@ class MoviesFragment : Fragment() {
                     }
                     is DataState.Success -> {
                         binding?.progressBarShow = false
-                        moviesAdapter =
-                            MoviesAdapter(requireActivity(), it.baseResponseData.results)
+                        moviesAdapter.submitList(it.baseResponseData.results)
                         binding?.rvTopMovies?.adapter = moviesAdapter
                     }
                 }
@@ -113,9 +114,9 @@ class MoviesFragment : Fragment() {
                         val movieData = it.baseResponseData.results
 
                         binding?.rvBottomMovies?.layoutManager = manager
+
                         moviesPagingDataList.addAll(movieData)
-                        moviesPagingAdapter =
-                            MoviesPagingAdapter(requireActivity(), moviesPagingDataList)
+                        moviesPagingAdapter.submitList(moviesPagingDataList)
                         binding?.rvBottomMovies?.adapter = moviesPagingAdapter
                     }
                 }

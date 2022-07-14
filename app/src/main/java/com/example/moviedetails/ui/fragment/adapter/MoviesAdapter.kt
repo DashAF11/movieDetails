@@ -1,47 +1,28 @@
 package com.example.moviedetails.ui.fragment.adapter
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.DiffUtil
+import com.example.moviedetails.R
+import com.example.moviedetails.base.BaseAdapter
 import com.example.moviedetails.data.pojo.MovieData
 import com.example.moviedetails.databinding.ItemListTopMoviesLayoutBinding
-import timber.log.Timber
+import com.example.moviedetails.utils.loadImage
 
-class MoviesAdapter(context: Context, private val moviesList: List<MovieData>) :
-    RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
-
-    private var mContext: Context = context
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemBinding = ItemListTopMoviesLayoutBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return ViewHolder(itemBinding)
+class MoviesAdapter : BaseAdapter<MovieData, ItemListTopMoviesLayoutBinding>(object :
+    DiffUtil.ItemCallback<MovieData>() {
+    override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val moviesData: MovieData = moviesList[position]
-        holder.bind(moviesData, mContext)
+    override fun areContentsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
+        return oldItem.backdrop_path == newItem.backdrop_path
     }
 
-    override fun getItemCount(): Int = moviesList.size
-
-    class ViewHolder(private val itemBinding: ItemListTopMoviesLayoutBinding) :
-        RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(moviesData: MovieData, mContext: Context) {
-
-            itemBinding.movie = moviesData
-
-            val url = "https://image.tmdb.org/t/p/w200" + moviesData.backdrop_path
-            Timber.i(url)
-
-            Glide.with(mContext)
-                .load(url)
-                .into(itemBinding.ivMovieBG)
+}, R.layout.item_list_top_movies_layout) {
+    override fun bind(viewBinding: ItemListTopMoviesLayoutBinding, item: MovieData, position: Int) {
+        viewBinding.movie = item
+        item.backdrop_path.loadImage(viewBinding.ivMovieBG)
+        viewBinding.ivMovieBG.setOnClickListener {
+            listener.invoke(it, item, position)
         }
     }
 }
