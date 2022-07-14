@@ -19,3 +19,4 @@ fun Fragment.navigate(directions: NavDirections) =
     } catch (e: Exception) {
         Timber.e(e)
     }
+

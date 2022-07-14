@@ -15,6 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/dark_grey"
         tools:context=".ui.fragment.MoviesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -28,11 +29,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_list_top_movies_layout" />
 
-        <Button
+        <TextView
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_margin="15dp"
+            android:background="@drawable/rounded_background_gradient_blue"
+            android:gravity="center"
             android:text="Search Movies"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

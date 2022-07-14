@@ -3,7 +3,6 @@ package com.example.moviedetails
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.example.moviedetails.data.pojo.DataState
 import com.example.moviedetails.data.pojo.MovieData
 import com.example.moviedetails.databinding.FragmentSearchBinding
 import com.example.moviedetails.ui.fragment.adapter.MoviesPagingAdapter
+import com.example.moviedetails.utils.navigate
 import com.example.moviedetails.viewModel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
         binding?.rvSearchedMovies?.isNestedScrollingEnabled = false
 
         moviesPagingAdapter.listener = { _, item, _ ->
-            Toast.makeText(requireContext(), "${item.id}", Toast.LENGTH_LONG).show()
+            navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(item.id))
         }
 
         binding?.rvSearchedMovies?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -71,6 +71,7 @@ class SearchFragment : Fragment() {
 
         binding?.searchEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(searched: Editable?) {
+                moviesPagingDataList.clear()
                 searchedMovie = searched.toString()
                 moviesViewModel.getSearchedMovieData(searchedMovie, pageCount)
             }
@@ -93,7 +94,9 @@ class SearchFragment : Fragment() {
             moviesViewModel.getSearchedMovieData.flowWithLifecycle(lifecycle).collect {
                 when (it) {
                     is DataState.Error -> {
-                        Log.e("getSearchedMovieData", it.errorMessage)
+                        binding?.progressBarShow = false
+                        Toast.makeText(requireContext(), "${it.errorMessage}", Toast.LENGTH_LONG)
+                            .show()
                     }
                     DataState.Loading -> {
                         binding?.progressBarShow = true

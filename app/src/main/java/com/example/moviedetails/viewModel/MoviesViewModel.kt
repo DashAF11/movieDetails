@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviedetails.data.pojo.BaseResponse
 import com.example.moviedetails.data.pojo.DataState
 import com.example.moviedetails.data.pojo.MovieData
-import com.example.moviedetails.data.pojo.MovieDetail
 import com.example.moviedetails.domain.IGetMovies
 import com.example.moviedetails.domain.toSharedFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,14 +21,14 @@ class MoviesViewModel @Inject constructor(private val getMoviesRepository: IGetM
 
     private val _getMovieData = MutableSharedFlow<DataState<BaseResponse<List<MovieData>>>>()
     private val _getMoviePagingData = MutableSharedFlow<DataState<BaseResponse<List<MovieData>>>>()
-    private val _getMovieDetails = MutableSharedFlow<DataState<BaseResponse<MovieDetail>>>()
     private val _getSearchedMovieData =
         MutableSharedFlow<DataState<BaseResponse<List<MovieData>>>>()
+    private val _getSingleMovieData = MutableSharedFlow<DataState<MovieData>>()
 
     val getMovieData = _getMovieData.toSharedFlow()
     val getMoviePagingData = _getMoviePagingData.toSharedFlow()
-    val getMovieDetails = _getMovieDetails.toSharedFlow()
     val getSearchedMovieData = _getSearchedMovieData.toSharedFlow()
+    val getSingleMovieDetails = _getSingleMovieData.toSharedFlow()
 
     fun getMovies() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -49,8 +48,8 @@ class MoviesViewModel @Inject constructor(private val getMoviesRepository: IGetM
 
     fun getMovieDetails(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            getMoviesRepository.getMovieDetails(movieId).onEach {
-                _getMovieDetails.emit(it)
+            getMoviesRepository.getSingleMovie(movieId).onEach {
+                _getSingleMovieData.emit(it)
             }.launchIn(viewModelScope)
         }
     }

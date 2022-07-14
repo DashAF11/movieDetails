@@ -1,7 +1,6 @@
 package com.example.moviedetails.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,11 +54,11 @@ class MoviesFragment : Fragment() {
         binding?.rvBottomMovies?.isNestedScrollingEnabled = false
 
         moviesAdapter.listener = { _, item, _ ->
-            Toast.makeText(requireContext(), "${item.id}", Toast.LENGTH_LONG).show()
+            navigate(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailFragment(item.id))
         }
 
         moviesPagingAdapter.listener = { _, item, _ ->
-            Toast.makeText(requireContext(), "${item.id}", Toast.LENGTH_LONG).show()
+            navigate(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailFragment(item.id))
         }
 
         binding?.rvBottomMovies?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -92,7 +91,8 @@ class MoviesFragment : Fragment() {
             moviesViewModel.getMovieData.flowWithLifecycle(lifecycle).collect {
                 when (it) {
                     is DataState.Error -> {
-                        Log.e("getMovieData", it.errorMessage)
+                        Toast.makeText(requireContext(), "${it.errorMessage}", Toast.LENGTH_LONG)
+                            .show()
                     }
                     DataState.Loading -> {
                         binding?.progressBarShow = true
@@ -110,7 +110,8 @@ class MoviesFragment : Fragment() {
             moviesViewModel.getMoviePagingData.flowWithLifecycle(lifecycle).collect {
                 when (it) {
                     is DataState.Error -> {
-                        Log.e("getMoviePagingData", it.errorMessage)
+                        Toast.makeText(requireContext(), "${it.errorMessage}", Toast.LENGTH_LONG)
+                            .show()
                     }
                     DataState.Loading -> {
                         binding?.progressBarShow = true

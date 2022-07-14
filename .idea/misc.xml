@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/drawable/rounded_background_gradient_blue.xml" value="0.37083333333333335" />
+        <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/drawable/rounded_background_grey.xml" value="0.1765625" />
+        <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/drawable/rounded_background_light_grey.xml" value="0.1765625" />
+        <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/drawable/rounded_background_outline_blue.xml" value="0.37083333333333335" />
         <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/layout/activity_main.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/layout/fragment_movie_detail.xml" value="0.3546875" />
         <entry key="..\:/Users/spunk/AndroidStudioProjects/MovieDetails/app/src/main/res/layout/fragment_search.xml" value="0.3546875" />

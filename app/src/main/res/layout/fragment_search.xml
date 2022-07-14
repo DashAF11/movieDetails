@@ -15,6 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/dark_grey"
         android:padding="5dp"
         tools:context=".SearchFragment">
 
@@ -22,6 +23,11 @@
             android:id="@+id/searchEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_background_white"
+            android:hint="Search movie here..."
+            android:padding="10dp"
+            android:textColor="@color/gradient_blue_end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
