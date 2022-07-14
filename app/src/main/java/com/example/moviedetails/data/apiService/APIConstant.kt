@@ -13,7 +13,7 @@ object APIConstant {
         "movie/{movie_id}?api_key=a32b3c9922836cf80716782cea3325f5&language=en-US"
 
     const val CASE_SEARCH_MOVIES =
-        "search/movie?api_key=a32b3c9922836cf80716782cea3325f5&language=en-US&query={search_string}min&page={page_count}&include_adult=false"
+        "search/movie?api_key=a32b3c9922836cf80716782cea3325f5&language=en-US&min&&include_adult=false"
 
 }
 

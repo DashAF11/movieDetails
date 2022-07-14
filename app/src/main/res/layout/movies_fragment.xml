@@ -28,6 +28,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_list_top_movies_layout" />
 
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Search Movies"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvTopMovies" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBottomMovies"
             android:layout_width="match_parent"
@@ -36,7 +47,7 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvTopMovies"
+            app:layout_constraintTop_toBottomOf="@+id/btnSearch"
             app:spanCount="3"
             tools:itemCount="9"
             tools:listitem="@layout/item_list_bottom_movies_layout" />

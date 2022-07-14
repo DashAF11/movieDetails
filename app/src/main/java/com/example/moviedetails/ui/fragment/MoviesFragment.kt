@@ -13,11 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviedetails.R
 import com.example.moviedetails.data.pojo.DataState
 import com.example.moviedetails.data.pojo.MovieData
 import com.example.moviedetails.databinding.MoviesFragmentBinding
 import com.example.moviedetails.ui.fragment.adapter.MoviesAdapter
 import com.example.moviedetails.ui.fragment.adapter.MoviesPagingAdapter
+import com.example.moviedetails.utils.navigate
 import com.example.moviedetails.viewModel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -73,6 +75,10 @@ class MoviesFragment : Fragment() {
                 }
             }
         })
+
+        binding?.btnSearch?.setOnClickListener {
+            navigate(R.id.action_moviesFragment_to_searchFragment)
+        }
     }
 
     override fun onStart() {

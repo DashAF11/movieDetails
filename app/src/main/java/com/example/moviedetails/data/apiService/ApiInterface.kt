@@ -3,6 +3,7 @@ package com.example.moviedetails.data.apiService
 import com.example.moviedetails.data.apiService.APIConstant.CASE_GET_MOVIES
 import com.example.moviedetails.data.apiService.APIConstant.CASE_GET_MOVIES_PAGING
 import com.example.moviedetails.data.apiService.APIConstant.CASE_GET_MOVIE_DETAILS
+import com.example.moviedetails.data.apiService.APIConstant.CASE_SEARCH_MOVIES
 import com.example.moviedetails.data.pojo.BaseResponse
 import com.example.moviedetails.data.pojo.MovieData
 import com.example.moviedetails.data.pojo.MovieDetail
@@ -21,9 +22,9 @@ interface ApiInterface {
     suspend fun getMovieDetails(@Path("movie_id") movie_id: Int): BaseResponse<MovieDetail>
 
 
-    @GET(CASE_GET_MOVIE_DETAILS)
+    @GET(CASE_SEARCH_MOVIES)
     suspend fun getSearchedMovieData(
-        @Path("search_string") search_string: String,
-        @Path("page_count") page_count: Int
+        @Query("query") search_string: String,
+        @Query("page") page_count: Int
     ): BaseResponse<List<MovieData>>
 }

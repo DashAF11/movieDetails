@@ -1,5 +1,6 @@
 package com.example.moviedetails.ui.fragment.adapter
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.example.moviedetails.R
 import com.example.moviedetails.base.BaseAdapter
@@ -23,10 +24,14 @@ class MoviesPagingAdapter : BaseAdapter<MovieData, ItemListBottomMoviesLayoutBin
         item: MovieData,
         position: Int
     ) {
-        viewBinding.movie = item
-        item.poster_path.loadImage(viewBinding.ivMovieDisplayPic)
-        viewBinding.ivMovieDisplayPic.setOnClickListener {
-            listener(it, item, position)
+        try {
+            viewBinding.movie = item
+            item.poster_path.loadImage(viewBinding.ivMovieDisplayPic)
+            viewBinding.ivMovieDisplayPic.setOnClickListener {
+                listener(it, item, position)
+            }
+        } catch (e: Exception) {
+            Log.d("MoviesPagingAdapter: ", e.message.toString())
         }
     }
 }

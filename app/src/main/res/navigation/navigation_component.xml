@@ -9,7 +9,14 @@
         android:id="@+id/moviesFragment"
         android:name="com.example.moviedetails.ui.fragment.MoviesFragment"
         android:label="movies_fragment"
-        tools:layout="@layout/movies_fragment" />
+        tools:layout="@layout/movies_fragment" >
+        <action
+            android:id="@+id/action_moviesFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_moviesFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.example.moviedetails.ui.fragment.MovieDetailFragment"
